@@ -5,11 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 @RestController
 @CrossOrigin
@@ -26,15 +23,13 @@ public class TodosAPI {
 
     @PostMapping("/")
     public Mono<Todo> createTodo(@RequestBody Mono<Todo> todo) {
-        Mono<Todo> result = todo.map(it -> {
+        return todo.map(it -> {
             it.setId(seq++);
             return it;
         }).map(it -> {
            todos.put(it.getId(), it);
            return it;
         }).map(it -> todos.get(it.getId()));
-
-        return result;
     }
 
     @DeleteMapping("/")
@@ -67,11 +62,7 @@ public class TodosAPI {
                 old.setTitle(it.getTitle());
             }
             return it;
-        }).map(it -> {
-            if(it.getOrder() > -1) {
-                old.setOrder(it.getOrder());
-            }
-            return it;
         });
     }
 }
+
