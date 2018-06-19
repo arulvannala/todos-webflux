@@ -1,55 +1,48 @@
 package io.corbs;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @RestController
-@CrossOrigin
+@RequestMapping("todos")
 public class TodosAPI {
 
-    private Map<Integer, Todo> todos = new HashMap<>();
+    @Value("${todos.webflux.limit}")
+    private int limit;
+    private final LinkedHashMap<Integer, Todo> todos = new LinkedHashMap<Integer, Todo>() {
+        @Override
+        protected boolean removeEldestEntry(final Map.Entry eldest) {
+            return size() > limit;
+        }
+    };
 
     private static Integer seq = 0;
 
-    @GetMapping("/")
-    public Flux<Todo> listTodos() {
-        return Flux.fromIterable(todos.values());
-    }
-
     @PostMapping("/")
-    public Mono<Todo> createTodo(@RequestBody Mono<Todo> todo) {
-        Mono<Todo> result = todo.map(it -> {
+    public Mono<Todo> create(@RequestBody Mono<Todo> todo) {
+        return todo.map(it -> {
             it.setId(seq++);
             return it;
         }).map(it -> {
-           todos.put(it.getId(), it);
-           return it;
+            todos.put(it.getId(), it);
+            return it;
         }).map(it -> todos.get(it.getId()));
-
-        return result;
     }
 
-    @DeleteMapping("/")
-    public void clean() {
-        todos.clear();
+    @GetMapping("/")
+    public Flux<Todo> retrieve() {
+        return Flux.fromIterable(todos.values());
     }
 
     @GetMapping("/{id}")
-    public Mono<Todo> getTodo(@PathVariable Integer id) {
+    public Mono<Todo> retrieve(@PathVariable Integer id) {
         return Mono.just(todos.get(id));
-    }
-
-    @DeleteMapping("/{id}")
-    public void remove(@PathVariable Integer id) {
-        todos.remove(id);
     }
 
     @PatchMapping("/{id}")
@@ -67,11 +60,18 @@ public class TodosAPI {
                 old.setTitle(it.getTitle());
             }
             return it;
-        }).map(it -> {
-            if(it.getOrder() > -1) {
-                old.setOrder(it.getOrder());
-            }
-            return it;
         });
     }
+
+    @DeleteMapping("/")
+    public void delete() {
+        todos.clear();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        todos.remove(id);
+    }
+
+
 }
