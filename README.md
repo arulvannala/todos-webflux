@@ -39,5 +39,6 @@ At the framework level we work with 2 key non-blocking types, the first and simp
 
 annotations on a ``class`` we can encapsulates and provide context for an API.  ``TodoAPI`` maps http requests starting with `/todos` to CRUD methods implemented in this class.  The [Todo(s) Data](https://github.com/corbtastik/todos-data) Microservice exposes a similar CRUD API but with zero code from us, it uses Spring Data Rest to blanket a Data Model with a CRUD ops.  Check out [repo](https://github.com/corbtastik/todos-data) for more information on Spring Boot with Spring Data Rest.
 
-Using the same eex
+### References
 
+[Web Reactive](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)

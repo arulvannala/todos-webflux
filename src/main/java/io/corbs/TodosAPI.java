@@ -1,19 +1,24 @@
 package io.corbs;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static java.lang.String.format;
+
 @RestController
 @RequestMapping("todos")
 public class TodosAPI {
 
-    @Value("${todos.webflux.limit}")
+    @Value("${todos.api.limit}")
     private int limit;
     private final LinkedHashMap<Integer, Todo> todos = new LinkedHashMap<Integer, Todo>() {
         @Override
@@ -26,13 +31,18 @@ public class TodosAPI {
 
     @PostMapping("/")
     public Mono<Todo> create(@RequestBody Mono<Todo> todo) {
-        return todo.map(it -> {
-            it.setId(seq++);
-            return it;
-        }).map(it -> {
-            todos.put(it.getId(), it);
-            return it;
-        }).map(it -> todos.get(it.getId()));
+
+        if(todos.size() < limit) {
+            return todo.log().map(it -> {
+                it.setId(seq++);
+                todos.put(it.getId(), it);
+                return todos.get(it.getId());
+            });
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                format("todos.api.limit=%d, todos.size()=%d", limit, todos.size()));
+        }
+
     }
 
     @GetMapping("/")
@@ -48,14 +58,14 @@ public class TodosAPI {
     @PatchMapping("/{id}")
     public Mono<Todo> update(@PathVariable Integer id, @RequestBody Mono<Todo> todo) {
         if(!todos.containsKey(id)) {
-            return Mono.just(Todo.builder().build());
+            throw new RuntimeException("cannot update a todo with that id: " + id);
         }
         Todo old = todos.get(id);
-
         return todo.map(it -> {
+            if(!ObjectUtils.isEmpty(it.getCompleted())) {
+                old.setCompleted(it.getCompleted());
+            }
             old.setCompleted(it.getCompleted());
-            return it;
-        }).map(it -> {
             if(!StringUtils.isEmpty(it.getTitle())){
                 old.setTitle(it.getTitle());
             }

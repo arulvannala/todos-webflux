@@ -15,7 +15,7 @@ management:
 eureka:
   client:
     serviceUrl:
-      defaultZone: 'http://localhost:8761/eureka'
+      defaultZone: 'http://localhost:8761/eureka/'
 todos:
-  webflux:
-    limit: 25
+  api:
+    limit: 5
