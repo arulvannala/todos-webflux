@@ -20,12 +20,8 @@ public class TodosAPI {
 
     @Value("${todos.api.limit}")
     private int limit;
-    private final LinkedHashMap<Integer, Todo> todos = new LinkedHashMap<Integer, Todo>() {
-        @Override
-        protected boolean removeEldestEntry(final Map.Entry eldest) {
-            return size() > limit;
-        }
-    };
+
+    private final Map<Integer, Todo> todos = new LinkedHashMap<>();
 
     private static Integer seq = 0;
 
