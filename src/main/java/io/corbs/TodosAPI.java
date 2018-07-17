@@ -9,8 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.String.format;
 
@@ -21,16 +23,15 @@ public class TodosAPI {
     @Value("${todos.api.limit}")
     private int limit;
 
-    private final Map<Integer, Todo> todos = new LinkedHashMap<>();
+    private final Map<Integer, Todo> todos = Collections.synchronizedMap(new LinkedHashMap<>());
 
-    private static Integer seq = 0;
+    private final static AtomicInteger seq = new AtomicInteger(1);
 
     @PostMapping("/")
     public Mono<Todo> create(@RequestBody Mono<Todo> todo) {
-
         if(todos.size() < limit) {
-            return todo.log().map(it -> {
-                it.setId(seq++);
+            return todo.map(it -> {
+                it.setId(seq.getAndIncrement());
                 todos.put(it.getId(), it);
                 return todos.get(it.getId());
             });
@@ -38,7 +39,6 @@ public class TodosAPI {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                 format("todos.api.limit=%d, todos.size()=%d", limit, todos.size()));
         }
-
     }
 
     @GetMapping("/")
@@ -48,24 +48,26 @@ public class TodosAPI {
 
     @GetMapping("/{id}")
     public Mono<Todo> retrieve(@PathVariable Integer id) {
+        if(!todos.containsKey(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, format("todo.id=%d", id));
+        }
         return Mono.just(todos.get(id));
     }
 
     @PatchMapping("/{id}")
     public Mono<Todo> update(@PathVariable Integer id, @RequestBody Mono<Todo> todo) {
         if(!todos.containsKey(id)) {
-            throw new RuntimeException("cannot update a todo with that id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, format("todo.id=%d", id));
         }
-        Todo old = todos.get(id);
+        Todo current = todos.get(id);
         return todo.map(it -> {
             if(!ObjectUtils.isEmpty(it.getCompleted())) {
-                old.setCompleted(it.getCompleted());
+                current.setCompleted(it.getCompleted());
             }
-            old.setCompleted(it.getCompleted());
             if(!StringUtils.isEmpty(it.getTitle())){
-                old.setTitle(it.getTitle());
+                current.setTitle(it.getTitle());
             }
-            return it;
+            return current;
         });
     }
 
@@ -75,9 +77,16 @@ public class TodosAPI {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        todos.remove(id);
+    public Mono<Todo> delete(@PathVariable Integer id) {
+        if(!todos.containsKey(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, format("todo.id=%d", id));
+        }
+        return Mono.just(todos.remove(id));
     }
 
+    @GetMapping("/limit")
+    public Mono<Limit> getLimit() {
+        return Mono.just(Limit.builder().size(this.todos.size()).limit(this.limit).nextId(seq.get()).build());
+    }
 
 }

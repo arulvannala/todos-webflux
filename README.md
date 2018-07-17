@@ -39,6 +39,22 @@ At the framework level we work with 2 key non-blocking types, the first and simp
 
 annotations on a ``class`` we can encapsulates and provide context for an API.  ``TodoAPI`` maps http requests starting with `/todos` to CRUD methods implemented in this class.  The [Todo(s) Data](https://github.com/corbtastik/todos-data) Microservice exposes a similar CRUD API but with zero code from us, it uses Spring Data Rest to blanket a Data Model with a CRUD ops.  Check out [repo](https://github.com/corbtastik/todos-data) for more information on Spring Boot with Spring Data Rest.
 
+### Reactive Spring Web
+
+HTTP Abstraction for client and server
+Reactive Web APIs are built around Reactive Stream types, implemented by Reactor
+
+Server Support
+
+HttpHandler - one method
+WebHandler API - higher level abstraction, chained web API
+
+WebHttpHandlerBuilder
+
+The WebHandler API is a general purpose, server, web API for processing requests through a chain of WebExceptionHandler’s, WebFilter’s, and a target WebHandler. The chain can be assembled with WebHttpHandlerBuilder either by adding components to the builder or by having them detected from a Spring ApplicationContext. The builder returns an HttpHandler that can then be used to run on any of the supported servers.
+
+
+
 ### References
 
 [Web Reactive](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
