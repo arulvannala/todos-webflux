@@ -32,7 +32,7 @@ App | |
 ------------ | ------------- |
 Spring Boot 2 | Reactive support from ``spring-boot-starter-webflux``
 Spring 5 Framework | Provides WebFlux module
-Reactor Core | Core non-blocking libs (see [projectreactor](http://projectreactor.io/)
+Reactor Core | Core non-blocking libs, see [projectreactor](http://projectreactor.io/)
 
 ### Reactive Controller
 
