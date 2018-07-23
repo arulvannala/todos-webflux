@@ -1,6 +1,6 @@
-## Todo(s) Webflux Backing API
+## Todo(s) Webflux API  
 
-Howdy and welcome.  This repository contains a Reactive API implemented in Spring Boot 2.0 and Spring Cloud.  This API uses Spring WebFlux to map endpoints to methods using the time tested ``@RestController`` and ``@RequestMapping`` annotations.  This API is a backend for the [Vue.js version](http://todomvc.com/examples/vue/) of [TodoMVC](http://todomvc.com/).  Frontend repo is [here](https://github.com/corbtastik/todos-ui).
+Howdy and welcome.  This repository contains a Reactive API implemented in [Spring Boot 2.0](https://spring.io/projects/spring-boot) and [Spring Cloud](https://projects.spring.io/spring-cloud/), it uses [Spring WebFlux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) to map endpoints to methods and functions as a back-end for the [Todo(s) UI](https://github.com/corbtastik/todos-ui).
 
 ### Primary dependencies
 
