@@ -10,15 +10,21 @@ Howdy and welcome.  This repository contains a Reactive API implemented in Sprin
 * Spring Cloud Config Client (central config)
 * Spring Cloud Sleuth (request tracing)
 
-This API is part of the [Todo collection](https://github.com/corbtastik/todos-ecosystem) of Microservices used in Cloud Native Developer workshops.  For a full list of Microservices checkout the [Todo(s) EcoSystem repo](https://github.com/corbtastik/todos-ecosystem).
+This API is part of the [Todo collection](https://github.com/corbtastik/todos-ecosystem) of Microservices.  For a full listing [checkout](https://github.com/corbtastik/todos-ecosystem).
 
 ### Spring Boot Reactive Stack
 
-This Microservice is similar to Todo(s) API but with one major difference...it's non-blocking whereas Todo(s) API is synchronous.  With the release of Spring 5 & Spring Boot 2 earlier this Spring :) the framework offers up a sibling Web Stack thats fully non-blocking and runs on [Netty](http://netty.io/).  Traditional Spring Boot Microservice run on the Tomcat Servlet Container but developers can choose which embedded container to use, for example ``spring-boot-starter-jetty`` or ``spring-boot-starter-undertow`` in addition to the default ``spring-boot-starter-tomcat`` which is pulled in by default when ``spring-boot-starter-web`` is included.
+This Microservice is similar to Todo(s) API in the sense they share a common HTTP interface and the JVM as a runtime.  Beyond that they're quite different.
 
-Now developer have another embedded container stack to use that's reactive and provided by another starter, ``spring-boot-starter-webflux``.  The new Reactive Stack takes advantage of multi-core CPU(s) in a manner that allows for a higher number of connections than a Servlet Stack Microservice.
+* Todo(s) WebFlux is reactive where as Todo(s) API is imperative
+* Todo(s) WebFlux is non-blocking where as Todo(s) API is blocking
+* Todo(s) WebFlux is asynchronous whereas Todo(s) API is synchronous
 
-Prior to Spring Boot 2 if a developer wanted to implement a Reactive Microservice they had to step outside the Spring Framework to implement.  Now developers can stay within one Framework and get Reactive support...awe yeah.  Reactive Spring will continue to take hold, grow and improve Reactive support at every level of the stack - web, security, data and messaging.
+With the release of Spring 5 & Spring Boot 2 earlier this Spring :) the framework offers a sibling Web Stack thats fully non-blocking and runs on [Netty](http://netty.io/).  Traditional Spring Boot Microservice run on the Tomcat Servlet Container but developers can choose which embedded container to use, for example ``spring-boot-starter-jetty`` or ``spring-boot-starter-undertow`` in addition to the default ``spring-boot-starter-tomcat`` which is pulled in by default when ``spring-boot-starter-web`` is included.
+
+**Now** developers have another embedded container stack to use that's reactive and provided by, ``spring-boot-starter-webflux``.  The new Reactive Stack takes advantage of multi-core CPU(s) in a manner that allows for a higher number of connections than a Servlet Stack Microservice.
+
+Prior to Spring Boot 2 if a developer wanted to implement a Reactive Microservice they had to step outside the Spring Framework to implement.  Now developers can stay within one Framework and get Reactive support...awe yeah.
 
 ### Reactive Stack Hierarchy
 
@@ -36,25 +42,7 @@ We can define a Reactive Controller using the same web binding annotations, ``@R
 The key difference is how we type inputs and outputs from the ``@RestController``, in the Reactive Stack the types are Non-blocking by design so we don't merely return rendered values we return "promises" to provide rendered values.  The reactive types are core to [reactor](http://projectreactor.io/) and are more accurately called ``Publisher(s)`` and they "publish" to ``Subscriber(s)`` who have explicitly subscribed and asked for information.  These are types specific to the [Reactive Streams](http://www.reactive-streams.org/) spec, a spec that's implemented by [reactor](http://projectreactor.io/).
 
 At the framework level we work with 2 key non-blocking types, the first and simplest is [``Mono<T>``](http://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html).  ``Mono<T>`` is (brace yourself Mono is a mouthful) a Generically Typed Reactive Stream Publisher that completes by emitting a `T` or raising an Error.
-
-annotations on a ``class`` we can encapsulates and provide context for an API.  ``TodoAPI`` maps http requests starting with `/todos` to CRUD methods implemented in this class.  The [Todo(s) Data](https://github.com/corbtastik/todos-data) Microservice exposes a similar CRUD API but with zero code from us, it uses Spring Data Rest to blanket a Data Model with a CRUD ops.  Check out [repo](https://github.com/corbtastik/todos-data) for more information on Spring Boot with Spring Data Rest.
-
-### Reactive Spring Web
-
-HTTP Abstraction for client and server
-Reactive Web APIs are built around Reactive Stream types, implemented by Reactor
-
-Server Support
-
-HttpHandler - one method
-WebHandler API - higher level abstraction, chained web API
-
-WebHttpHandlerBuilder
-
-The WebHandler API is a general purpose, server, web API for processing requests through a chain of WebExceptionHandler’s, WebFilter’s, and a target WebHandler. The chain can be assembled with WebHttpHandlerBuilder either by adding components to the builder or by having them detected from a Spring ApplicationContext. The builder returns an HttpHandler that can then be used to run on any of the supported servers.
-
-
-
+ 
 ### References
 
 [Web Reactive](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
