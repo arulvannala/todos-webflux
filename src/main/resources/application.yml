@@ -18,4 +18,4 @@ eureka:
       defaultZone: 'http://localhost:8761/eureka/'
 todos:
   api:
-    limit: 65568
+    limit: 512
