@@ -17,7 +17,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.lang.String.format;
 
 @RestController
-@RequestMapping("todos")
 public class TodosAPI {
 
     @Value("${todos.api.limit}")
@@ -59,15 +58,15 @@ public class TodosAPI {
         if(!todos.containsKey(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, format("todo.id=%d", id));
         }
-        Todo current = todos.get(id);
+
         return todo.map(it -> {
             if(!ObjectUtils.isEmpty(it.getCompleted())) {
-                current.setCompleted(it.getCompleted());
+                todos.get(id).setCompleted(it.getCompleted());
             }
             if(!StringUtils.isEmpty(it.getTitle())){
-                current.setTitle(it.getTitle());
+                todos.get(id).setTitle(it.getTitle());
             }
-            return current;
+            return todos.get(id);
         });
     }
 
@@ -86,7 +85,7 @@ public class TodosAPI {
 
     @GetMapping("/limit")
     public Mono<Limit> getLimit() {
-        return Mono.just(Limit.builder().size(this.todos.size()).limit(this.limit).nextId(seq.get()).build());
+        return Mono.just(Limit.builder().size(this.todos.size()).limit(this.limit).build());
     }
 
 }
