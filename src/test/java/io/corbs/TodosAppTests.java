@@ -3,54 +3,51 @@ package io.corbs;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import reactor.core.publisher.Flux;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Delayed;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TodosAppTests {
 
-	@Test
-	public void funWithMono() {
-	    Mono<String> publisher = Mono.just("Mono for 0 or 1 Events").delaySubscription(Duration.ofMillis(1000));
-	    publisher.subscribe( it -> {
-	        System.out.println(it);
-        });
-	    System.out.println("Howdy");
-        pause(2000);
-    }
-
-    private void pause(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {  }
-    }
-
     @Test
-    public void iterableIterator() {
-        List<String> names = Arrays.asList("Bucky","Mick","Nacho");
-        Iterator<String> it = names.iterator();
-        while(it.hasNext()) {
-            System.out.println(it.next());
-        }
-        // shortened
-        for (String name : names) {
-            System.out.println(name);
-        }
-    }
+    public void createDelete() {
+        WebTestClient webTestClient = WebTestClient
+                .bindToController(new TodosAPI(128)).build();
+        webTestClient.post()
+            .uri("/")
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Mono.just(Todo.builder().title("make bacon pancakes").completed(false).build()), Todo.class)
+            .exchange()
+                .expectStatus().isOk()
+                .expectBody(Todo.class)
+                .consumeWith( body -> {
+                    assertThat(body.getResponseBody().getId()).isEqualTo(1);
+                    assertThat(body.getResponseBody().getTitle()).isEqualTo("make bacon pancakes");
+                    assertThat(body.getResponseBody().getCompleted()).isFalse();
+                });
 
-    @Test
-    public void publishSubscribe() {
-	    Flux<String> names = Flux.fromIterable(
-            Arrays.asList("Bucky","Mick","Nacho"));
-	    names.subscribe(System.out::println);
+        webTestClient.delete()
+            .uri("/{id}", 1)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Todo.class)
+                .consumeWith( body -> {
+                    assertThat(body.getResponseBody().getId()).isEqualTo(1);
+                    assertThat(body.getResponseBody().getTitle()).isEqualTo("make bacon pancakes");
+                    assertThat(body.getResponseBody().getCompleted()).isFalse();
+                });
+
+        webTestClient.get()
+                .uri("/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(Todo.class);
     }
 }

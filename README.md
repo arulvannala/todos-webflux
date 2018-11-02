@@ -40,7 +40,7 @@ We can define a Reactive Controller using the same web binding annotations, ``@R
 
 The key difference is how we type inputs and outputs from the ``@RestController``, in the Reactive Stack the types are Non-blocking by design so we don't merely return rendered values we return "promises" to provide rendered values.  The reactive types are core to [reactor](http://projectreactor.io/) and are more accurately called ``Publisher(s)`` and they "publish" to ``Subscriber(s)`` who have explicitly subscribed and asked for information.  These are types specific to the [Reactive Streams](http://www.reactive-streams.org/) spec, a spec that's implemented by [reactor](http://projectreactor.io/).
 
-At the framework level we work with 2 key non-blocking types, the first and simplest is [``Mono<T>``](http://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html).  ``Mono<T>`` is (brace yourself Mono is a mouthful) a Generically Typed Reactive Stream Publisher that completes by emitting a `T` or raising an Error.
+At the framework level we work with 2 key non-blocking types, the first and simplest is [``Mono<T>``](http://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html).  ``Mono<T>`` is a Generically Typed Reactive Stream Publisher that completes by emitting a `T` or raising an Error.
  
 ### References
 

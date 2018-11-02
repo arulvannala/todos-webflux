@@ -1,5 +1,7 @@
 package io.corbs;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
@@ -9,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,12 +22,18 @@ import static java.lang.String.format;
 @RestController
 public class TodosAPI {
 
-    @Value("${todos.api.limit}")
-    private int limit;
+    private static final Logger LOG = LoggerFactory.getLogger(TodosAPI.class);
 
     private final Map<Integer, Todo> todos = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private final static AtomicInteger seq = new AtomicInteger(1);
+
+    private Integer limit;
+
+    public TodosAPI(@Value("${todos.api.limit}") Integer limit) {
+        LOG.info("TodosWebFlux booting with todos.api.limit=" + limit);
+        this.limit = limit;
+    }
 
     @PostMapping("/")
     public Mono<Todo> create(@RequestBody Mono<Todo> todo) {
@@ -43,6 +52,13 @@ public class TodosAPI {
     @GetMapping("/")
     public Flux<Todo> retrieve() {
         return Flux.fromIterable(todos.values());
+    }
+
+    @GetMapping("/completed")
+    public Flux<Todo> completed(@RequestParam(defaultValue = "0") Integer n) {
+        return Flux.fromIterable(todos.values())
+            .filter(Todo::getCompleted)
+                .delayElements(Duration.ofMillis(n));
     }
 
     @GetMapping("/{id}")

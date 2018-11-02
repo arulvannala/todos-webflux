@@ -1,9 +1,6 @@
 spring:
   application:
     name: todos-webflux
-logging:
-  level:
-    io.corbs: INFO
 server:
   port: 8010
 management:
@@ -12,10 +9,6 @@ management:
       base-path: /ops
       exposure:
         include: '*'
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: 'http://localhost:8761/eureka/'
 todos:
   api:
-    limit: 1024
+    limit: 128
