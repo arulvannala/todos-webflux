@@ -1,5 +1,5 @@
 #!/bin/sh
-
+export MAVEN_OPTS="-Xms2g -Xmx2g"
 cd source-code
   ./mvnw clean package
 cd ..
