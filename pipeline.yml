@@ -1,0 +1,16 @@
+---
+resources:
+- name: source-code
+  type: git
+  source:
+    uri: https://github.com/corbtastik/todos-webflux.git
+    branch: master
+
+jobs:
+- name: build
+  public: true
+  plan:
+  - get: source-code
+    trigger: true
+  - task: build
+    file: source-code/ci/build.yml
