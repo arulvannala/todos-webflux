@@ -9,17 +9,11 @@ resources:
   type: semver
   source:
     driver: git
-    uri: git@github.com:corbtastik/todos-webflux.git
+    uri: git@github.com:corbtastik/todos-version.git
     branch: master
     initial_version: 1.0.0.SNAPSHOT
     file: version
     private_key: ((private-key-github))
-#- name: artifact-release
-#  type: github-release
-#  source:
-#    owner: corbtastik
-#    repository: todos-webflux
-#    access_token: ((access-token-github))
 jobs:
 - name: build
   plan:
