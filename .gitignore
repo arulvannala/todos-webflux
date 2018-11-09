@@ -25,3 +25,7 @@
 /.nb-gradle/
 
 .creds
+creds.yml
+creds.yaml
+creds.properties
+creds.json
