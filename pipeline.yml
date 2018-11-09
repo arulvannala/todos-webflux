@@ -18,7 +18,7 @@ resources:
   source:
     owner: corbtastik
     repository: todos-webflux
-    access_token: 62d0c5acd9e77c8d8670d36696adbf9e27d95ba6
+    access_token: ((access-token-github))
 jobs:
 - name: build
   plan:
