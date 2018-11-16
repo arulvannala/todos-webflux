@@ -61,6 +61,12 @@ public class TodosAPI {
                 .delayElements(Duration.ofMillis(n));
     }
 
+    @GetMapping("/tag/{tag}")
+    public Flux<Todo> tags(@PathVariable String tag) {
+        return Flux.fromIterable(todos.values())
+            .filter(todo -> todo.getTitle().contains(tag));
+    }
+
     @GetMapping("/{id}")
     public Mono<Todo> retrieve(@PathVariable Integer id) {
         if(!todos.containsKey(id)) {
