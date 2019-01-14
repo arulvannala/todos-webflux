@@ -1,6 +1,8 @@
 ## Todo(s) Webflux API  
 
-Howdy and welcome.  This repository contains a Reactive API implemented using [Spring Boot](https://spring.io/projects/spring-boot) and [Spring Cloud](https://projects.spring.io/spring-cloud/), it uses [Spring WebFlux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) to map endpoints to methods and functions as a back-end for the [Todo(s) UI](https://github.com/corbtastik/todos-ui).
+Howdy and welcome!
+
+This repository contains a Reactive API implemented using [Spring Boot](https://spring.io/projects/spring-boot) and [Spring Cloud](https://projects.spring.io/spring-cloud/), it uses [Spring WebFlux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html) to map endpoints to methods and functions as a back-end for the [Todo(s) UI](https://github.com/corbtastik/todos-ui).
 
 ### Primary dependencies
 
