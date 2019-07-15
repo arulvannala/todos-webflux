@@ -1,14 +1,12 @@
 spring:
   application:
     name: todos-webflux
-server:
-  port: 8010
+# log levels: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, or OFF
+logging:
+  level:
+    root: INFO
 management:
   endpoints:
     web:
-      base-path: /ops
       exposure:
         include: '*'
-todos:
-  api:
-    limit: 128
