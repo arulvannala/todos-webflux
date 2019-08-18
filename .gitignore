@@ -1,35 +1,5 @@
-/target/
-!.mvn/wrapper/maven-wrapper.jar
-pom.xml.versionsBackup
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/build/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-.creds
-creds.yml
-creds.yaml
-creds.properties
-creds.json
-.secrets.yml
-
-.DS_Store
+#  ignore everything except files explicitly listed
+*
+!version
+!README.md
+!.gitignore
