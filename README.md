@@ -45,3 +45,37 @@ The key difference is how we type inputs and outputs from the ``@RestController`
 ### References
 
 [Web Reactive](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
+
+### Testing
+
+```bash
+http POST :8080 title="Buy Milk"
+http :8080
+```
+
+### CI/CD
+
+- Test unit test task
+
+```bash
+fly -t lab execute -c ci/tasks/unit-test.yml -i code-repo=.
+```
+
+- Test build task
+
+```bash
+mkdir -p target/version
+echo "1.0.0-rc.1" > target/version/version
+fly -t lab execute -c ci/tasks/build.yml -i code-repo=. -i version-repo=target/version  --include-ignored
+```
+
+- Test pipeline
+
+```bash
+fly -t lab set-pipeline  -p todos-webflux \
+    --config ci/pipeline.yml \
+    --load-vars-from ci/.secrets.yml \
+    --non-interactive
+
+fly -t lab unpause-pipeline -p todos-webflux
+```

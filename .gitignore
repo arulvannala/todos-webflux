@@ -30,3 +30,5 @@ creds.yml
 creds.yaml
 creds.properties
 creds.json
+.secrets.yml
+
