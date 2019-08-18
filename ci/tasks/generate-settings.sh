@@ -4,15 +4,8 @@ set -o errexit
 set -o errtrace
 set -o pipefail
 
-# synopsis {{{
-# Generates settings.xml and gradle.properties#
-#
-# }}}
-
 [[ -z "${M2_HOME}" ]] && M2_HOME="${HOME}/.m2"
 [[ -z "${M2_CACHE}" ]] && M2_CACHE="${ROOT_FOLDER}/maven"
-[[ -z "${GRADLE_HOME}" ]] && GRADLE_HOME="${HOME}/.gradle"
-[[ -z "${GRADLE_CACHE}" ]] && GRADLE_CACHE="${ROOT_FOLDER}/gradle"
 
 echo "Generating symbolic links for caches"
 
