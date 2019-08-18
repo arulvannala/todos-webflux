@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export VERSION=`cat version-repo/version`
+export VERSION=`cat version/version`
 echo "Build version: ${VERSION}"
 
 cd code-repo

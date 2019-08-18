@@ -28,7 +28,7 @@ resources:
       uri: ((artifactory-uri))
       username: ((artifactory-username))
       password: ((artifactory-password))
-      build_name: ((artifactory-buildname))
+      build_name: ((artifactory-build-name))
 
 #  - name: final-release
 #    type: artifactory-resource
