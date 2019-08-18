@@ -23,14 +23,14 @@ resources:
       file: version
       private_key: ((version-repo-private-key))
 
-  - name: candidate-release
-    type: artifactory-resource
-    source:
-      uri: ((artifactory-uri))
-      username: ((artifactory-username))
-      password: ((artifactory-password))
-      build_name: ((artifactory-build-name))
-
+#  - name: candidate-release
+#    type: artifactory-resource
+#    source:
+#      uri: ((artifactory-uri))
+#      username: ((artifactory-username))
+#      password: ((artifactory-password))
+#      build_name: ((artifactory-build-name))
+#
 #  - name: final-release
 #    type: artifactory-resource
 #    source:
@@ -39,15 +39,15 @@ resources:
 #      password: ((artifactory-password))
 #      build_name: ((artifactory-buildname))
 #
-#  - name: cf-test
-#    type: cf
-#    source:
-#      api: ((cf-test-api))
-#      username: ((cf-test-username))
-#      password: ((cf-test-password))
-#      organization: ((cf-test-org))
-#      space: ((cf-test-space))
-#
+  - name: cf-test
+    type: cf
+    source:
+      api: ((cf-test-api))
+      username: ((cf-test-username))
+      password: ((cf-test-password))
+      organization: ((cf-test-org))
+      space: ((cf-test-space))
+
 #  - name: cf-prod
 #    type: cf
 #    source:
@@ -74,32 +74,34 @@ jobs:
       - get: version
         params: { pre: rc }
       - task: build
-        file: code-repo/ci/tasks/build.yml
-      - put: candidate-release
-        params: { file: build-artifacts/todos-webflux-*.jar }
+        file: code-repo/ci/tasks/build-and-publish.yml
+        params:
+          REPO_WITH_BINARIES: ((repo-with-binaires))
+          REPO_WITH_BINARIES_FOR_UPLOAD: ((repo-with-binaries-for-upload))
+          M2_SETTINGS_REPO_ID: ((m2-settings-repo-id))
+          M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
+          M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
       - put: version
         params: { file: version/version }
 
-#  - name: deploy-to-test
-#    serial: true
-#    plan:
-#      - get: candidate-release
-#        trigger: true
-#        passed: [ build-and-publish ]
-#      - get: code-repo
-#        passed: [ build-and-publish ]
-#      - get: version
-#        passed: [ build-and-publish ]
-#      - task: prepare-integration
-#        file: code-repo/ci/tasks/prepare-integration.yml
-#        params:
-#          CF_MANIFEST_HOST: ((cf-manifest-host))
-#      - put: cf
-#        params:
-#          manifest: prepare-integration/manifest.yml
-#      - task: integration
-#        file: pcfdemo/ci/tasks/integration.yml
-#
+  - name: deploy-to-test
+    serial: true
+    plan:
+      - get: code-repo
+        trigger: true
+        passed: [ build-and-publish ]
+      - get: version
+        passed: [ build-and-publish ]
+      - task: prepare-integration
+        file: code-repo/ci/tasks/prepare-integration.yml
+        params:
+          GROUP_ID: ((code-repo-group-id))
+          ARTIFACT_ID: ((code-repo-artifact-id))
+          ROUTE: ((cf-test-route))
+      - put: cf-test
+        params:
+          manifest: deployment/manifest.yml
+
 #  - name: ship-it
 #    serial_groups: [ version ]
 #    plan:

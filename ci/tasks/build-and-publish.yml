@@ -7,12 +7,14 @@ image_resource:
     repository: openjdk
     tag: '8-jdk-alpine'
 
+params:
+  - GROUP_ID:
+  - ARTIFACT_ID:
+  - ROUTE:
+
 inputs:
   - name: code-repo
   - name: version
 
-outputs:
-  - name: build-artifacts
-
 run:
-  path: code-repo/ci/tasks/build.sh
+  path: code-repo/ci/tasks/build-and-publish.sh
