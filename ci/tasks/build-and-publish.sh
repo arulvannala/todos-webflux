@@ -9,7 +9,10 @@ ls -ltr ci-scripts
 ls -ltr ci-scripts/ci
 ls -ltr ci-scripts/ci/tasks
 
+
+
 echo "Calling script to generate settings"
+cat ci-scripts/ci/tasks/generate-settings.sh
 ./ci-scripts/ci/tasks/generate-settings.sh
 
 cd code-repo
