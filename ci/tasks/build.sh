@@ -5,7 +5,7 @@ echo "Build version: ${VERSION}"
 
 cd code-repo
 ./mvnw versions:set -DnewVersion=${VERSION}
-./mvnw clean package
+./mvnw clean package -DskipTests
 
 # Copy war file to concourse output folder
 cd ..
