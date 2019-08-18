@@ -7,7 +7,7 @@ echo "list of current directory contents"
 ls -ltr
 
 echo "Calling script to generate settings"
-./ci-scripts/ci/tasks/create-maven-settings-xml.sh
+./ci-scripts/ci/tasks/generate-settings.sh
 
 cd code-repo
 
