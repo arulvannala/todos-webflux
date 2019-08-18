@@ -8,7 +8,9 @@ image_resource:
     tag: '8-jdk-alpine'
 
 params:
-  CF_MANIFEST_HOST:
+  - GROUP_ID:
+  - ARTIFACT_ID:
+  - ROUTE:
 
 inputs:
   - name: code-repo

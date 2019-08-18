@@ -76,7 +76,7 @@ jobs:
       - task: build
         file: code-repo/ci/tasks/build-and-publish.yml
         params:
-          REPO_WITH_BINARIES: ((repo-with-binaires))
+          REPO_WITH_BINARIES: ((repo-with-binaries))
           REPO_WITH_BINARIES_FOR_UPLOAD: ((repo-with-binaries-for-upload))
           M2_SETTINGS_REPO_ID: ((m2-settings-repo-id))
           M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
