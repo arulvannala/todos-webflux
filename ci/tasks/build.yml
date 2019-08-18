@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
   - name: code-repo
-  - name: version-repo
+  - name: version
 
 outputs:
   - name: build-artifacts

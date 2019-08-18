@@ -66,7 +66,7 @@ fly -t lab execute -c ci/tasks/unit-test.yml -i code-repo=.
 ```bash
 mkdir -p target/version
 echo "1.0.0-rc.1" > target/version/version
-fly -t lab execute -c ci/tasks/build.yml -i code-repo=. -i version-repo=target/version  --include-ignored
+fly -t lab execute -c ci/tasks/build.yml -i code-repo=. -i version=target/version  --include-ignored
 ```
 
 - Test pipeline
