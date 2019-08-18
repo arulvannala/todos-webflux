@@ -3,10 +3,10 @@
 export VERSION=`cat version/version`
 echo "Build version: ${VERSION}"
 
-cd code-repo
-
 echo "Calling script to generate settings"
-./ci/tasks/maven/create-maven-settings-xml.sh
+./ci-scripts/ci/tasks/create-maven-settings-xml.sh
+
+cd code-repo
 
 echo "Running mvn deploy command"
 ./mvnw deploy \

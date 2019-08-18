@@ -12,6 +12,14 @@ resources:
     source:
       uri: ((code-repo-uri))
       branch: ((code-repo-branch))
+      ignore_paths: ci
+
+  - name: ci-scripts
+    type: git
+    source:
+      uri: ((code-repo-uri))
+      branch: ((code-repo-branch))
+      paths: ci
 
   - name: version
     type: semver
@@ -71,6 +79,8 @@ jobs:
       - get: code-repo
         passed: [ unit-test ]
         trigger: true
+      - get: ci-scripts
+        passed: [ unit-test ]
       - get: version
         params: { pre: rc }
       - task: build-and-publish

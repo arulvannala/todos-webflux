@@ -15,8 +15,9 @@ params:
   - M2_SETTINGS_REPO_PASSWORD:
 
 inputs:
+  - name: ci-scripts
   - name: code-repo
   - name: version
 
 run:
-  path: code-repo/ci/tasks/build-and-publish.sh
+  path: ci-scripts/ci/tasks/build-and-publish.sh
