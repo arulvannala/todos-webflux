@@ -22,7 +22,6 @@ cat > "settings.xml" <<EOF
 EOF
 echo "Settings xml written"
 
-
 echo "Running mvn deploy command"
 ./mvnw deploy \
     -DnewVersion=${VERSION} \
