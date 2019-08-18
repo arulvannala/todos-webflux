@@ -73,7 +73,7 @@ jobs:
         trigger: true
       - get: version
         params: { pre: rc }
-      - task: build
+      - task: build-and-publish
         file: code-repo/ci/tasks/build-and-publish.yml
         params:
           REPO_WITH_BINARIES: ((repo-with-binaries))

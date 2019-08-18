@@ -3,15 +3,12 @@
 export VERSION=`cat version/version`
 echo "Build version: ${VERSION}"
 
-export M2_SETTINGS_REPO_ID=central
-export REPO_WITH_BINARIES_FOR_UPLOAD=http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory/libs-release-local
-export REPO_WITH_BINARIES=http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory/libs-release-local
-export M2_SETTINGS_REPO_USERNAME=cody
-export M2_SETTINGS_REPO_PASSWORD=AP3PYuBFwwSSE7DRWFZFBYASoHX
+cd code-repo
 
+echo "Calling script to generate settings"
 ./ci/tasks/maven/create-maven-settings-xml.sh
 
-cd code-repo
+echo "Running mvn deploy command"
 ./mvnw deploy \
     -DnewVersion=${VERSION} \
     -DskipTests \
