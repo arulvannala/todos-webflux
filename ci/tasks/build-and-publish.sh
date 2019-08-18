@@ -5,6 +5,7 @@ echo "Build version: ${VERSION}"
 
 echo "list of current directory contents"
 ls -ltr
+ls ci-scripts
 
 echo "Calling script to generate settings"
 ./ci-scripts/ci/tasks/generate-settings.sh
