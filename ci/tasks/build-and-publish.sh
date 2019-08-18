@@ -3,6 +3,9 @@
 export VERSION=`cat version/version`
 echo "Build version: ${VERSION}"
 
+echo "list of current directory contents"
+ls -ltr
+
 echo "Calling script to generate settings"
 ./ci-scripts/ci/tasks/create-maven-settings-xml.sh
 

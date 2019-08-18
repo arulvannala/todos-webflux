@@ -12,14 +12,14 @@ resources:
     source:
       uri: ((code-repo-uri))
       branch: ((code-repo-branch))
-      ignore_paths: ci
+      ignore_paths: ["ci"]
 
   - name: ci-scripts
     type: git
     source:
       uri: ((code-repo-uri))
       branch: ((code-repo-branch))
-      paths: ci
+      paths: ["ci"]
 
   - name: version
     type: semver
@@ -80,11 +80,10 @@ jobs:
         passed: [ unit-test ]
         trigger: true
       - get: ci-scripts
-        passed: [ unit-test ]
       - get: version
         params: { pre: rc }
       - task: build-and-publish
-        file: code-repo/ci/tasks/build-and-publish.yml
+        file: ci-scripts/ci/tasks/build-and-publish.yml
         params:
           REPO_WITH_BINARIES: ((repo-with-binaries))
           REPO_WITH_BINARIES_FOR_UPLOAD: ((repo-with-binaries-for-upload))
