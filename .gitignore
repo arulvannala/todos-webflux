@@ -32,3 +32,4 @@ creds.properties
 creds.json
 .secrets.yml
 
+.DS_Store
