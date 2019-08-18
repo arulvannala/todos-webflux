@@ -1,3 +1,3 @@
 #!/bin/sh
 cd code-repo
-./mvnw clean test
+#./mvnw clean test
