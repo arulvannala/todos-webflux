@@ -14,11 +14,11 @@ ls -ltr ci-scripts/ci/tasks
 echo "Calling script to generate settings"
 cat ci-scripts/ci/tasks/generate-settings.sh
 
-cd ci-scripts
+cd ci-scripts/ci/tasks
 
-./ci/tasks/generate-settings.sh
+./generate-settings.sh
 
-cd ../code-repo
+cd ../../../code-repo
 
 echo "Running mvn deploy command"
 ./mvnw deploy \
