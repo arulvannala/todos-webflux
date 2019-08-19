@@ -20,4 +20,4 @@ outputs:
   - name: deployment
 
 run:
-  path: code-repo/ci/tasks/prepare-cf-push.sh
+  path: ci-scripts/ci/tasks/prepare-cf-push.sh
