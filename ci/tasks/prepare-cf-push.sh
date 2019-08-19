@@ -6,9 +6,9 @@ artifactName="${ARTIFACT_ID}-${version}.jar"
 cd deployment
 
 export CALCULATED_GROUP_ID=${GROUP_ID//\./\/}
-ARTIFACT_FULL_URL="${ARTIFACTORY_URL}/${GROUP_ID//\.//}/${ARTIFACT_ID}/${VERSION}/${ARTIFACT_NAME}"
-echo "Downloading full artifact url: ${ARTIFACT_FULL_URI}"
-curl "${ARTIFACT_FULL_URI}" -O
+ARTIFACT_FULL_URI="${ARTIFACTORY_URL}/${GROUP_ID//\.//}/${ARTIFACT_ID}/${VERSION}/${ARTIFACT_NAME}"
+echo "Downloading full artifact uri: ${ARTIFACT_FULL_URI}"
+wget "${ARTIFACT_FULL_URI}"
 
 cp ../code-repo/ci-manifest.yml manifest.yml
 
