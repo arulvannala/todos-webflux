@@ -13,9 +13,9 @@ params:
   - ROUTE:
 
 inputs:
+  - name: ci-scripts
   - name: code-repo
   - name: version
-  - name: ci-scripts
 
 outputs:
   - name: deployment
