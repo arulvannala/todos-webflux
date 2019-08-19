@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=`cat $versionFile`
+version=`cat version/version`
 artifactName="${ARTIFACT_ID}-${version}.jar"
 
 cd deployment
