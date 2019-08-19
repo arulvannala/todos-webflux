@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 version=`cat version/version`
 artifactName="${ARTIFACT_ID}-${version}.jar"
