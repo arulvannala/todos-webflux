@@ -61,7 +61,7 @@ http :8080
 fly -t lab execute -c ci/tasks/unit-test.yml -i code-repo=. -i ci-scripts=.
 ```
 
-- Test build task
+- Test build and publish task
 
 ```bash
 mkdir -p target/version
@@ -92,3 +92,4 @@ fly -t lab set-pipeline  -p todos-webflux \
 
 fly -t lab unpause-pipeline -p todos-webflux
 ```
+ 
