@@ -79,8 +79,9 @@ jobs:
     plan:
       - get: code-repo
         trigger: true
+      - get: ci-scripts
       - task: unit-test
-        file: code-repo/ci/tasks/unit-test.yml
+        file: ci-scripts/ci/tasks/unit-test.yml
 
   - name: build-and-publish
     serial: true
@@ -182,6 +183,7 @@ jobs:
         passed: [ mark-as-release ]
       - get: ci-scripts
       - get: version
+        passed: [ mark-as-release ]
       - task: prepare-cf-push
         file: ci-scripts/ci/tasks/prepare-cf-push.yml
         params:
@@ -207,12 +209,13 @@ jobs:
         passed: [ mark-as-release ]
       - get: ci-scripts
       - get: version
+        passed: [ mark-as-release ]
       - task: prepare-cf-push
         file: ci-scripts/ci/tasks/prepare-cf-push.yml
         params:
           GROUP_ID: ((code-repo-group-id))
           ARTIFACT_ID: ((code-repo-artifact-id))
-          ROUTE: ((cf-prod-route))
+          ROUTE: ((cf-test-route))
           ARTIFACTORY_URL: ((repo-with-binaries))
           DEPLOY_TARGET_LABEL: test
       - put: cf-test

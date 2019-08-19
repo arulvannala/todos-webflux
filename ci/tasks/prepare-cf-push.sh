@@ -23,4 +23,4 @@ sed -i -- "s|- route: sampleroute|- route: ${ROUTE}|g" manifest.yml
 
 cat manifest.yml
 
-echo "${version}-cf-${DEPLOY_TARGET_LABEL}-deploy" > tag.txt
+echo "${version}-cf-${DEPLOY_TARGET_LABEL}-deploy-$(date +%Y%m%d_%H%M%S)" > tag.txt

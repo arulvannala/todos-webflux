@@ -30,4 +30,4 @@ echo "Running mvn deploy command"
     -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
     --settings settings.xml
 
-echo "version-${version}-artifactory-deploy" > ../results/tag.txt
+echo "version-${version}-artifactory-deploy-$(date +%Y%m%d_%H%M%S)" > ../results/tag.txt
