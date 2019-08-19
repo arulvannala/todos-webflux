@@ -126,7 +126,8 @@ jobs:
       - put: cf-test
         params:
           manifest: deployment/manifest.yml
-      - put: code-repo
+      - put: code-repo-tag
+        resource: code-repo
         params:
           repository: code-repo
           tag: deployment/tag.txt
@@ -168,10 +169,9 @@ jobs:
     serial: true
     plan:
       - get: code-repo
-        passed: [ deploy-to-test ]
+        passed: [ mark-as-release ]
       - get: ci-scripts
       - get: version
-        passed: [ deploy-to-test ]
       - task: prepare-cf-push
         file: ci-scripts/ci/tasks/prepare-cf-push.yml
         params:

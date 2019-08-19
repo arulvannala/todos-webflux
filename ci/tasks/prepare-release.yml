@@ -12,7 +12,7 @@ inputs:
   - name: code-repo
   - name: version
 
-output:
+outputs:
   - name: results
 
 run:
