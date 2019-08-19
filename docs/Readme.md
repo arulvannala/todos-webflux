@@ -161,3 +161,35 @@ fly -t lab set-pipeline  -p todos-webflux \
 fly -t lab unpause-pipeline -p todos-webflux
 ```
  
+## Considerations when designing a pineline
+
+There are many considerations to take into account.  Only some of them have been answered here.
+
+- How to manage versions
+  - Separate repo, or the same.  May want to use seperate if driving change to trigger a bunch of microservices at the same time
+  - When to update and when to bump
+- Where to put release artifacts
+  - S3, github, artifactory, nowhere
+- How to integrate with cf
+  - Cf resource or Cf-cli-resource or other
+  - Write your own scripts
+- How far into continuous delivery will you go?
+  - How many cf spaces?
+- How much do you want to incorporate testing
+  - Smoke tests in the pipeline
+  - Cloud-pipeline techniques alike rollback testing and api compatibility testing
+- Would you like to use a full featured CD tool like Spinnaker for the complexities
+- Store scripts in code repo or not
+- Select the right resources
+- Select the right base-image to run your tasks
+- Matching release versions to maven versions: SNAPSHOT or not to SNAPSHOT
+- Pipelines for libraries (where deployment ends with release to artifactory)
+- Guarding against inclusion of SNAPSHOT dependencies
+- Integration with secure code tools like Fortify
+- Integration with code quality tools like SonarQube
+- Integration with change management systems like ServiceNow
+- Naming conventions
+- What can run in parallel, and what should be serial
+
+
+
