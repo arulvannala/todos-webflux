@@ -108,6 +108,7 @@ jobs:
           GROUP_ID: ((code-repo-group-id))
           ARTIFACT_ID: ((code-repo-artifact-id))
           ROUTE: ((cf-test-route))
+          ARTIFACTORY_URL: ((repo-with-binaries))
       - put: cf-test
         params:
           manifest: deployment/manifest.yml

@@ -11,6 +11,7 @@ params:
   - GROUP_ID:
   - ARTIFACT_ID:
   - ROUTE:
+  - ARTIFACTORY_URL:
 
 inputs:
   - name: ci-scripts
