@@ -21,4 +21,4 @@ outputs:
   - name: deployment
 
 run:
-  path: ci-scripts/ci/tasks/build-and-publish.sh
+  path: ci-scripts/ci/tasks/prepare-cf-push.sh
