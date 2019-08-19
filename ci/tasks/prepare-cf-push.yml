@@ -16,7 +16,7 @@ inputs:
   - name: code-repo
   - name: version
 
-outpus:
+outputs:
   - name: deployment
 
 run:

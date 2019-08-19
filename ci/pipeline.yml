@@ -99,10 +99,11 @@ jobs:
       - get: code-repo
         trigger: true
         passed: [ build-and-publish ]
+      - get: ci-scripts
       - get: version
         passed: [ build-and-publish ]
-      - task: prepare-integration
-        file: code-repo/ci/tasks/prepare-integration.yml
+      - task: prepare-cf-push
+        file: ci-scripts/ci/tasks/prepare-cf-push.yml
         params:
           GROUP_ID: ((code-repo-group-id))
           ARTIFACT_ID: ((code-repo-artifact-id))
