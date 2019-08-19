@@ -160,7 +160,7 @@ jobs:
           only_tag: true
       - put: code-repo-release
         params:
-          name: results/release-name.txt
+          name: release-results/release-name.txt
           tag: results/tag.txt
           globs:
             - results/code-repo-*.tgz
@@ -179,29 +179,42 @@ jobs:
           ARTIFACT_ID: ((code-repo-artifact-id))
           ROUTE: ((cf-prod-route))
           ARTIFACTORY_URL: ((repo-with-binaries))
+          DEPLOY_TARGET_LABEL: prod
       - put: cf-prod
         params:
           manifest: deployment/manifest.yml
+      - put: code-repo-tag
+        resource: code-repo
+        params:
+          repository: code-repo
+          tag: deployment/tag.txt
+          only_tag: true
 
-  - name: prod-complete
+  - name: deploy-release-to-test
     serial: true
     plan:
       - get: code-repo
-        passed: [ deploy-to-prod ]
+        passed: [ mark-as-release ]
       - get: ci-scripts
-        passed: [ deploy-to-prod ]
       - get: version
-        params: { bump: final }
-      - task: build-and-publish
-        file: ci-scripts/ci/tasks/build-and-publish.yml
+      - task: prepare-cf-push
+        file: ci-scripts/ci/tasks/prepare-cf-push.yml
         params:
-          REPO_WITH_BINARIES: ((repo-with-binaries))
-          REPO_WITH_BINARIES_FOR_UPLOAD: ((repo-with-binaries-for-upload))
-          M2_SETTINGS_REPO_ID: ((m2-settings-repo-id))
-          M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
-          M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
-      - put: version
-        params: { file: version/version }
+          GROUP_ID: ((code-repo-group-id))
+          ARTIFACT_ID: ((code-repo-artifact-id))
+          ROUTE: ((cf-prod-route))
+          ARTIFACTORY_URL: ((repo-with-binaries))
+          DEPLOY_TARGET_LABEL: test
+      - put: cf-prod
+        params:
+          manifest: deployment/manifest.yml
+      - put: code-repo-tag
+        resource: code-repo
+        params:
+          repository: code-repo
+          tag: deployment/tag.txt
+          only_tag: true
+
 
 #  - name: major
 #    serial_groups: [ version ]

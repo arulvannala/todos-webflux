@@ -13,7 +13,7 @@ inputs:
   - name: version
 
 outputs:
-  - name: results
+  - name: release-results
 
 run:
   path: ci-scripts/ci/tasks/prepare-release.sh

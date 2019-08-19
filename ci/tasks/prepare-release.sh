@@ -3,5 +3,7 @@
 export version=`cat version/version`
 echo "Build version: ${version}"
 
-tar -cvf results/code-repo-${version}.tgz code-repo
-echo "version-${version}-release" > results/release-name.txt
+echo "version-${version}-release" > release-results/release-name.txt
+
+rm -rf code-repo/.git
+tar -cvf release-results/code-repo-${version}.tgz code-repo
