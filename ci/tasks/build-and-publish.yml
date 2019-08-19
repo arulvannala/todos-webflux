@@ -4,8 +4,12 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: openjdk
-    tag: '8-jdk-alpine'
+    repository: cloudpipelines/pipeline-base
+    tag: latest
+#  type: docker-image
+#  source:
+#    repository: openjdk
+#    tag: '8-jdk-alpine'
 
 params:
   - REPO_WITH_BINARIES:
