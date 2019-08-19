@@ -6,10 +6,6 @@ image_resource:
   source:
     repository: cloudpipelines/pipeline-base
     tag: latest
-#  type: docker-image
-#  source:
-#    repository: openjdk
-#    tag: '8-jdk-alpine'
 
 params:
   - REPO_WITH_BINARIES:
@@ -22,6 +18,9 @@ inputs:
   - name: ci-scripts
   - name: code-repo
   - name: version
+
+output:
+  - name: results
 
 run:
   path: ci-scripts/ci/tasks/build-and-publish.sh

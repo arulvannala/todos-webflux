@@ -30,4 +30,4 @@ echo "Running mvn deploy command"
     -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
     --settings settings.xml
 
-#git tag -a ${version} -m "Version ${version} deployed to artifactory"
+echo "version-${version}-artifactory-deploy" > ../results/tag.txt

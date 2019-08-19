@@ -21,6 +21,7 @@ resources:
       uri: ((code-repo-uri))
       branch: ((code-repo-branch))
       paths: ["ci"]
+      private_key: ((code-repo-private-key))
 
   - name: version
     type: semver
@@ -92,7 +93,7 @@ jobs:
           M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
           M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
       - put: version
-        params: { file: version/version }
+        params: { file: results/tag.txt }
       - put: code-repo
         params:
           repository: code-repo
