@@ -23,9 +23,9 @@ EOF
 echo "Settings xml written"
 
 echo "Running mvn deploy command"
-#./mvnw deploy \
-#    -DnewVersion=${VERSION} \
-#    -DskipTests \
-#    -Ddistribution.management.release.id="${M2_SETTINGS_REPO_ID}" \
-#    -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
-#    --settings settings.xml
+./mvnw deploy \
+    -DnewVersion=${VERSION} \
+    -DskipTests \
+    -Ddistribution.management.release.id="${M2_SETTINGS_REPO_ID}" \
+    -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
+    --settings settings.xml

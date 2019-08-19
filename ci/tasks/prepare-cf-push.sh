@@ -6,7 +6,7 @@ artifactName="${ARTIFACT_ID}-${version}.jar"
 cd deployment
 
 export CALCULATED_GROUP_ID=${GROUP_ID//\./\/}
-ARTIFACT_FULL_URI="${ARTIFACTORY_URL}/${GROUP_ID//\.//}/${ARTIFACT_ID}/${VERSION}/${artifactName}"
+ARTIFACT_FULL_URI="${ARTIFACTORY_URL}/${GROUP_ID//\.//}/${ARTIFACT_ID}/${version}/${artifactName}"
 echo "Downloading full artifact uri: ${ARTIFACT_FULL_URI}"
 wget "${ARTIFACT_FULL_URI}"
 
