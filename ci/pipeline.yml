@@ -101,7 +101,8 @@ jobs:
           M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
       - put: version
         params: { file: version/version }
-      - put: code-repo
+      - put: code-repo-tag
+        resource: code-repo
         params:
           repository: code-repo
           tag: results/tag.txt
@@ -163,7 +164,16 @@ jobs:
           name: release-results/release-name.txt
           tag: results/tag.txt
           globs:
-            - results/code-repo-*.tgz
+            - release-results/code-repo-*.tgz
+
+  - name: bump-patch-version
+    serial: true
+    plan:
+      - get: version
+        passed: [ mark-as-release ]
+        trigger: true
+      - put: version
+        params: { bump: patch, pre: rc }
 
   - name: deploy-to-prod
     serial: true
@@ -205,7 +215,7 @@ jobs:
           ROUTE: ((cf-prod-route))
           ARTIFACTORY_URL: ((repo-with-binaries))
           DEPLOY_TARGET_LABEL: test
-      - put: cf-prod
+      - put: cf-test
         params:
           manifest: deployment/manifest.yml
       - put: code-repo-tag
@@ -215,24 +225,14 @@ jobs:
           tag: deployment/tag.txt
           only_tag: true
 
+  - name: bump-major-version
+    serial: true
+    plan:
+      - put: version
+        params: { bump: major, pre: rc }
 
-#  - name: major
-#    serial_groups: [ version ]
-#    plan:
-#      - put: version
-#        params: { bump: major, pre: rc }
-#
-#  - name: minor
-#    serial_groups: [ version ]
-#    plan:
-#      - put: version
-#        params: { bump: minor, pre: rc }
-#
-#  - name: patch
-#    serial_groups: [ version ]
-#    plan:
-#      - get: version
-#        passed: [ ship-it ]
-#        trigger: true
-#      - put: version
-#        params: { bump: patch, pre: rc }
+  - name: bump-minor-version
+    serial: true
+    plan:
+      - put: version
+        params: { bump: minor, pre: rc }

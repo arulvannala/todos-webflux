@@ -8,7 +8,6 @@ image_resource:
     tag: latest
 
 params:
-  - REPO_WITH_BINARIES:
   - REPO_WITH_BINARIES_FOR_UPLOAD:
   - M2_SETTINGS_REPO_ID:
   - M2_SETTINGS_REPO_USERNAME:

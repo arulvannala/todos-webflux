@@ -9,6 +9,7 @@ image_resource:
 
 inputs:
   - name: code-repo
+  - name: ci-scripts
 
 run:
-  path: code-repo/ci/tasks/unit-test.sh
+  path: ci-scripts/ci/tasks/unit-test.sh
