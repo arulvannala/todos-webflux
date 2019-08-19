@@ -5,7 +5,7 @@ applications:
     path: target/todos-webflux-1.0.0.SNAP.jar
     buildpack: java_buildpack_offline
     routes:
-      - sampleroute
+      - route: sampleroute
     env:
       TODOS_API_LIMIT: 1024
 

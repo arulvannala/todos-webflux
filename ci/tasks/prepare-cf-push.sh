@@ -13,6 +13,6 @@ curl "${ARTIFACT_FULL_URI}" -O
 cp ../code-repo/ci-manifest.yml manifest.yml
 
 sed -i -- "s|path: .*$|path: $artifactName|g" manifest.yml
-sed -i -- "s|- sampleroute|- ${ROUTE}|g" manifest.yml
+sed -i -- "s|- route: sampleroute|- route: ${ROUTE}|g" manifest.yml
 
 cat manifest.yml
