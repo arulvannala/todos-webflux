@@ -4,7 +4,8 @@ version=`cat version/version`
 artifactName="${ARTIFACT_ID}-${version}.jar"
 
 cd deployment
-
+echo "GROUP_ID=${GROUP_ID}"
+echo "ARTIFACT_ID=${ARTIFACT_ID}"
 export CALCULATED_GROUP_ID=${GROUP_ID//\./\/}
 ARTIFACT_FULL_URI="${ARTIFACTORY_URL}/${GROUP_ID//\.//}/${ARTIFACT_ID}/${version}/${artifactName}"
 echo "Downloading full artifact uri: ${ARTIFACT_FULL_URI}"
