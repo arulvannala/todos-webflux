@@ -16,6 +16,7 @@ params:
   - ARTIFACT_ID:
   - ROUTE:
   - ARTIFACTORY_URL:
+  - DEPLOY_TARGET_LABEL:
 
 inputs:
   - name: ci-scripts

@@ -13,6 +13,7 @@ resources:
       uri: ((code-repo-uri))
       branch: ((code-repo-branch))
       ignore_paths: ["ci"]
+      private_key: ((code-repo-private-key))
 
   - name: ci-scripts
     type: git
@@ -29,7 +30,7 @@ resources:
       uri: ((version-repo-uri))
       branch: ((version-repo-branch))
       file: version
-      private_key: ((version-repo-private-key))
+      private_key: ((code-repo-private-key))
 
 #  - name: candidate-release
 #    type: artifactory-resource
@@ -92,6 +93,11 @@ jobs:
           M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
       - put: version
         params: { file: version/version }
+      - put: code-repo
+        params:
+          repository: code-repo
+          tag: version/version
+          only_tag: true
 
   - name: deploy-to-test
     serial: true
@@ -109,9 +115,15 @@ jobs:
           ARTIFACT_ID: ((code-repo-artifact-id))
           ROUTE: ((cf-test-route))
           ARTIFACTORY_URL: ((repo-with-binaries))
+          DEPLOY_TARGET_LABEL: test
       - put: cf-test
         params:
           manifest: deployment/manifest.yml
+      - put: code-repo
+        params:
+          repository: code-repo
+          tag: deployment/tag.txt
+          only_tag: true
 
   - name: deploy-to-prod
     serial: true

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export VERSION=`cat version/version`
-echo "Build version: ${VERSION}"
+export version=`cat version/version`
+echo "Build version: ${version}"
 
 cd code-repo
 
@@ -23,9 +23,11 @@ EOF
 echo "Settings xml written"
 
 echo "Running mvn deploy command"
-./mvnw versions:set -DnewVersion=${VERSION}
+./mvnw versions:set -DnewVersion=${version}
 ./mvnw deploy \
     -DskipTests \
     -Ddistribution.management.release.id="${M2_SETTINGS_REPO_ID}" \
     -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
     --settings settings.xml
+
+#git tag -a ${version} -m "Version ${version} deployed to artifactory"
