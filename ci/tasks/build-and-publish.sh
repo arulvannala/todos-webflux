@@ -23,7 +23,7 @@ EOF
 echo "Settings xml written"
 
 echo "Running mvn deploy command"
-./mvnw deploy \
+./mvnw versions:set deploy \
     -DnewVersion=${VERSION} \
     -DskipTests \
     -Ddistribution.management.release.id="${M2_SETTINGS_REPO_ID}" \
