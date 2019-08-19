@@ -5,6 +5,7 @@ echo "Build version: ${version}"
 
 cd code-repo
 
+# Create custom settings.xml file with credentials required to publish to remote maven repi
 cat > "settings.xml" <<EOF
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -22,6 +23,7 @@ cat > "settings.xml" <<EOF
 EOF
 echo "Settings xml written"
 
+# Update version and deploy to remote maven repository
 echo "Running mvn deploy command"
 ./mvnw versions:set -DnewVersion=${version}
 ./mvnw deploy \
@@ -30,4 +32,5 @@ echo "Running mvn deploy command"
     -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
     --settings settings.xml
 
+# Create file with tag name to be used in later put step
 echo "version-${version}-artifactory-deploy-$(date +%Y%m%d_%H%M%S)" > ../results/tag.txt

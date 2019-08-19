@@ -6,10 +6,6 @@ image_resource:
   source:
     repository: cloudpipelines/pipeline-base
     tag: latest
-#  type: docker-image
-#  source:
-#    repository: openjdk
-#    tag: '8-jdk-alpine'
 
 params:
   - GROUP_ID:

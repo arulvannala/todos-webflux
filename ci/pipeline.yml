@@ -1,18 +1,13 @@
 ---
-resource_types:
-  - name: artifactory-resource
-    type: docker-image
-    source:
-      repository: springio/artifactory-resource
-      tag: 0.0.10
-
 resources:
   - name: code-repo
     type: git
     source:
       uri: ((code-repo-uri))
       branch: ((code-repo-branch))
-      ignore_paths: ["ci"]
+      ignore_paths:
+        - "ci"
+        - "docs"
       private_key: ((code-repo-private-key))
 
   - name: code-repo-release
@@ -40,22 +35,6 @@ resources:
       file: version
       private_key: ((code-repo-private-key))
 
-#  - name: candidate-release
-#    type: artifactory-resource
-#    source:
-#      uri: ((artifactory-uri))
-#      username: ((artifactory-username))
-#      password: ((artifactory-password))
-#      build_name: ((artifactory-build-name))
-#
-#  - name: final-release
-#    type: artifactory-resource
-#    source:
-#      uri: ((artifactory-uri))
-#      username: ((artifactory-username))
-#      password: ((artifactory-password))
-#      build_name: ((artifactory-buildname))
-#
   - name: cf-test
     type: cf
     source:
@@ -122,7 +101,7 @@ jobs:
           GROUP_ID: ((code-repo-group-id))
           ARTIFACT_ID: ((code-repo-artifact-id))
           ROUTE: ((cf-test-route))
-          ARTIFACTORY_URL: ((repo-with-binaries))
+          ARTIFACTORY_URL: ((repo-with-binaries-for-upload))
           DEPLOY_TARGET_LABEL: test
       - put: cf-test
         params:
@@ -189,7 +168,7 @@ jobs:
           GROUP_ID: ((code-repo-group-id))
           ARTIFACT_ID: ((code-repo-artifact-id))
           ROUTE: ((cf-prod-route))
-          ARTIFACTORY_URL: ((repo-with-binaries))
+          ARTIFACTORY_URL: ((repo-with-binaries-for-upload))
           DEPLOY_TARGET_LABEL: prod
       - put: cf-prod
         params:
@@ -215,7 +194,7 @@ jobs:
           GROUP_ID: ((code-repo-group-id))
           ARTIFACT_ID: ((code-repo-artifact-id))
           ROUTE: ((cf-test-route))
-          ARTIFACTORY_URL: ((repo-with-binaries))
+          ARTIFACTORY_URL: ((repo-with-binaries-for-upload))
           DEPLOY_TARGET_LABEL: test
       - put: cf-test
         params:
