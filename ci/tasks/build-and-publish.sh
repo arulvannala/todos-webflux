@@ -27,8 +27,5 @@ echo "Running mvn deploy command"
     -DskipTests \
     -s ${HOME}/.m2/settings.xml
 
-
-cd code-repo
-
 # Create file with tag name to be used in later put step
 echo "version-${version}-artifactory-deploy" > ../results/tag.txt
