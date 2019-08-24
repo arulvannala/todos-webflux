@@ -8,8 +8,7 @@ image_resource:
     tag: latest
 
 params:
-  - REPO_WITH_BINARIES_FOR_UPLOAD:
-  - M2_SETTINGS_REPO_ID:
+  - REPO_CONTEXT_URL:
   - M2_SETTINGS_REPO_USERNAME:
   - M2_SETTINGS_REPO_PASSWORD:
 
@@ -17,9 +16,13 @@ inputs:
   - name: ci-scripts
   - name: code-repo
   - name: version
+  - name: meta
 
 outputs:
   - name: results
+
+caches:
+  - path: .m2/
 
 run:
   path: ci-scripts/ci/tasks/build-and-publish.sh

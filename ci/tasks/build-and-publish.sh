@@ -1,36 +1,34 @@
-#!/bin/sh
+#!/bin/bash
+
+set -ex
 
 export version=`cat version/version`
 echo "Build version: ${version}"
 
+./ci-scripts/ci/tasks/create-maven-settings-xml.sh
+
+export ROOT_FOLDER=$( pwd )
+export BUILD_ID=`cat ${ROOT_FOLDER}/meta/build-id`
+export BUILD_NAME=`cat ${ROOT_FOLDER}/meta/build-name`
+export BUILD_TEAM_NAME=`cat ${ROOT_FOLDER}/meta/build-team-name`
+export BUILD_PIPELINE_NAME=`cat ${ROOT_FOLDER}/meta/build-pipeline-name`
+export BUILD_JOB_NAME=`cat ${ROOT_FOLDER}/meta/build-job-name`
+export ATC_EXTERNAL_URL=`cat ${ROOT_FOLDER}/meta/atc-external-url`
+export BUILD_URI=${ATC_EXTERNAL_URL}/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_PIPELINE_NAME}/build/${BUILD_NAME}
+
 cd code-repo
-
-# Create custom settings.xml file with credentials required to publish to remote maven repi
-cat > "settings.xml" <<EOF
-
-<?xml version="1.0" encoding="UTF-8"?>
-<settings>
-	<servers>
-		<server>
-			<id>\${M2_SETTINGS_REPO_ID}</id>
-			<username>\${M2_SETTINGS_REPO_USERNAME}</username>
-			<password>\${M2_SETTINGS_REPO_PASSWORD}</password>
-		</server>
-	</servers>
-</settings>
-
-
-EOF
-echo "Settings xml written"
 
 # Update version and deploy to remote maven repository
 echo "Running mvn deploy command"
-./mvnw versions:set -DnewVersion=${version}
+./mvnw versions:set \
+    -DnewVersion=${version} \
+    -s ${HOME}/.m2/settings.xml
 ./mvnw deploy \
     -DskipTests \
-    -Ddistribution.management.release.id="${M2_SETTINGS_REPO_ID}" \
-    -Ddistribution.management.release.url="${REPO_WITH_BINARIES_FOR_UPLOAD}" \
-    --settings settings.xml
+    -s ${HOME}/.m2/settings.xml
+
+
+cd code-repo
 
 # Create file with tag name to be used in later put step
-echo "version-${version}-artifactory-deploy-$(date +%Y%m%d_%H%M%S)" > ../results/tag.txt
+echo "version-${version}-artifactory-deploy" > ../results/tag.txt

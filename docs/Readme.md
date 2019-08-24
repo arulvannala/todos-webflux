@@ -91,8 +91,8 @@ Pipelines project mentioned above.
 ```yaml
 m2-settings-repo-username: username
 m2-settings-repo-password: SuperSecretPassword
-m2-settings-repo-id: central
-repo-with-binaries-for-upload: http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory/libs-release-local
+repo-context-url: http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory
+artifactory-repo: libs-release-local
 code-repo-uri: git@github.com:doddatpivotal/todos-webflux.git
 code-repo-branch: master
 code-repo-group-id: io.todos
@@ -134,12 +134,10 @@ mkdir -p target/version
 echo "1.0.0-rc.1" > target/version/version
 
 export REPO_WITH_BINARIES_FOR_UPLOAD=$ENTER_YOUR_URI
-export M2_SETTINGS_REPO_ID=$ENTER_YOUR_REPO_ID
 export M2_SETTINGS_REPO_USERNAME=$ENTER_YOUR_USERNAME
 export M2_SETTINGS_REPO_PASSWORD=$ENTER_YOUR_PASSWORD
 
 REPO_WITH_BINARIES_FOR_UPLOAD=$REPO_WITH_BINARIES_FOR_UPLOAD \
-    M2_SETTINGS_REPO_ID=$M2_SETTINGS_REPO_ID \
     M2_SETTINGS_REPO_USERNAME=$M2_SETTINGS_REPO_USERNAME \
     M2_SETTINGS_REPO_PASSWORD=$M2_SETTINGS_REPO_PASSWORD \
     fly -t lab execute -c ci/tasks/build-and-publish.yml -i code-repo=. \

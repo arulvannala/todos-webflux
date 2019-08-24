@@ -11,5 +11,8 @@ inputs:
   - name: code-repo
   - name: ci-scripts
 
+caches:
+  - path: .m2/
+
 run:
   path: ci-scripts/ci/tasks/unit-test.sh
