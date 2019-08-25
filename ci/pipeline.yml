@@ -169,6 +169,7 @@ jobs:
     plan:
       - get: code-repo
         passed: [ mark-as-release ]
+        trigger: true
       - get: ci-scripts
       - get: version
         passed: [ mark-as-release ]
