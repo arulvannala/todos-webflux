@@ -4,8 +4,20 @@ resource_types:
     type: docker-image
     source:
       repository: swce/metadata-resource
+  - name: artifactory-resource
+    type: docker-image
+    source:
+      repository: springio/artifactory-resource
+      tag: 0.0.10
 
 resources:
+  - name: artifactory
+    type: artifactory-resource
+    source:
+      uri: http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory
+      username: admin
+      password: AP84FRgmKRG3hbDVF5y6qmEZqia
+      build_name: todos-webflux
 
   - name: meta
     type: meta
@@ -96,6 +108,12 @@ jobs:
           repository: code-repo
           tag: results/tag.txt
           only_tag: true
+      - put: artifactory
+        params:
+          repo: libs-snapshot-local
+          folder: local-deployment
+          build_uri: "https://ci.lab.winterfell.live/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+          build_number: "${BUILD_PIPELINE_NAME}-${BUILD_JOB_NAME}-${BUILD_NAME}"
 
   - name: deploy-to-test
     serial: true
