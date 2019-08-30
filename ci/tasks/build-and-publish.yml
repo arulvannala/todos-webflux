@@ -20,7 +20,7 @@ inputs:
 
 outputs:
   - name: results
-  - name: local-deployment
+  - name: distribution-repository
 
 caches:
   - path: .m2/
