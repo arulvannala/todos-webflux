@@ -110,9 +110,10 @@ jobs:
           only_tag: true
       - put: artifactory
         params:
-          repo: libs-snapshot-local
+          repo: libs-release-local
           folder: distribution-repository
-          build_uri: "https://ci.lab.winterfell.live/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+          debug: true
+          build_uri: "((concourse_uri))/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
           build_number: "${BUILD_PIPELINE_NAME}-${BUILD_JOB_NAME}-${BUILD_NAME}"
 
   - name: deploy-to-test
