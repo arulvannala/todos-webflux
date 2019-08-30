@@ -18,8 +18,7 @@ echo "Running mvn deploy command"
 #    -s ${HOME}/.m2/settings.xml
 ./mvnw deploy \
     -DskipTests \
-#    -s ${HOME}/.m2/settings.xml \
     -DaltDeploymentRepository=distribution::default::file://${repository}
-
+#spring-boot-ci-image
 # Create file with tag name to be used in later put step
 echo "version-${version}-artifactory-deploy" > ../results/tag.txt
