@@ -86,33 +86,6 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.jfrog.buildinfo</groupId>-->
-<!--                <artifactId>artifactory-maven-plugin</artifactId>-->
-<!--                <version>2.7.0</version>-->
-<!--                <inherited>false</inherited>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>build-info</id>-->
-<!--                        <goals>-->
-<!--                            <goal>publish</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <publisher>-->
-<!--                                <contextUrl>{{REPO_CONTEXT_URL}}</contextUrl>-->
-<!--                                <username>{{M2_SETTINGS_REPO_USERNAME}}</username>-->
-<!--                                <password>{{M2_SETTINGS_REPO_PASSWORD}}</password>-->
-<!--                                <repoKey>libs-release-local</repoKey>-->
-<!--                                <snapshotRepoKey>libs-snapshot-local</snapshotRepoKey>-->
-<!--                            </publisher>-->
-<!--                            <buildInfo>-->
-<!--                                <buildNumber>{{BUILD_ID}}</buildNumber>-->
-<!--                                <buildUrl>{{BUILD_URI}}</buildUrl>-->
-<!--                            </buildInfo>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 

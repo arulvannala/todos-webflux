@@ -31,14 +31,15 @@ General Requirements
 - `unit-test` - Triggers of any code commit to the repo.  Simply runs `mvn verify` to ensure unit tests pass
 - `build-and-publish` - Automatically triggered via success of previous job. Retrieves the version with the next rc number.  Creates custom settings.xml file with 
 credentials to do a maven deploy.  Updates the java projects artifact version and then runs `mvn deploy` (without tests
- they were run the previous job) to deploy artifacts to Artifactory.  Pushes a new git tag with version number and
+ they were run the previous job) to deploy artifacts to local repository.  Then leverages artifactory-resource to publish
+ artifacts to artifactory.  Pushes a new git tag with version number and
  timestamp as well as updates the version resource
 - `deploy-to-test` - Automatically triggered via success of previous job.  Retrieves the .jar file from Artifactory, updates the cloud foundry manifest with artifact name
 and desired route, then pushes app to PAS.  Additionally creates git tag on the repo indicating that the version was
 deployed to test with a timestamp.
 - `mark-as-release` - Manually triggered when developer indicates testing has been completed and release version should
-be created.  Updates boot app's maven version and performs `mvn deploy` to publish to Artifactory with proper maven
-version.  Creates new git tag indicating new version.  Zips up the code-repo contents and creates a github
+be created.  Updates boot app's maven version and performs `mvn deploy` to publish locally and artifactory-resource to publish
+to Artifactory with proper maven version.  Creates new git tag indicating new version.  Zips up the code-repo contents and creates a github
 release with the version number and timestamp indicated.
 - `deploy-to-prod` - Manually triggered.  Like `deploy-to-test` stage, this Retrieves the .jar from Artifactory, 
 updates the cloud foundry manifest with artifact name and desired route, then pushes app to PAS.  Additionally 
@@ -62,12 +63,16 @@ Note that there is a small side-affect that -rc.1 will never be used in any vers
    
 ### Concourse Resources Used
 
-All resources used came out of the box with concourse
+The used came out of the box with concourse
 
 - git
 - github-release
 - semver
 - cf
+
+I've added the following 3rd party resources
+
+- artifactory-resource - provided by the spring team
 
 Info on these resources and more can be found on the [Concourse Duty Free](https://concourse.github.io/dutyfree/) site.
 
@@ -92,6 +97,8 @@ Pipelines project mentioned above.
 m2-settings-repo-username: username
 m2-settings-repo-password: SuperSecretPassword
 repo-context-url: http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory
+concourse_uri: https://ci.lab.winterfell.live
+artifactory-build-name: todos-webflux
 artifactory-repo: libs-release-local
 code-repo-uri: git@github.com:doddatpivotal/todos-webflux.git
 code-repo-branch: master
@@ -159,7 +166,7 @@ fly -t lab set-pipeline  -p todos-webflux \
 fly -t lab unpause-pipeline -p todos-webflux
 ```
  
-## Considerations when designing a pineline
+## Considerations when designing a pipeline
 
 There are many considerations to take into account.  Only some of them have been answered here.
 

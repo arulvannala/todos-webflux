@@ -1,9 +1,5 @@
 ---
 resource_types:
-  - name: meta
-    type: docker-image
-    source:
-      repository: swce/metadata-resource
   - name: artifactory-resource
     type: docker-image
     source:
@@ -17,10 +13,7 @@ resources:
       uri: ((repo-context-url))
       username: ((m2-settings-repo-username))
       password: ((m2-settings-repo-password))
-      build_name: todos-webflux
-
-  - name: meta
-    type: meta
+      build_name: ((artifactory-build-name))
 
   - name: code-repo
     type: git
@@ -93,13 +86,8 @@ jobs:
       - get: ci-scripts
       - get: version
         params: { pre: rc }
-      - get: meta
       - task: build-and-publish
         file: ci-scripts/ci/tasks/build-and-publish.yml
-        params:
-          REPO_CONTEXT_URL: ((repo-context-url))
-          M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
-          M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
       - put: version
         params: { file: version/version }
       - put: code-repo-tag
@@ -112,7 +100,6 @@ jobs:
         params:
           repo: libs-release-local
           folder: distribution-repository
-          debug: true
           build_uri: "((concourse_uri))/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
           build_number: "${BUILD_PIPELINE_NAME}-${BUILD_JOB_NAME}-${BUILD_NAME}"
 
@@ -150,15 +137,10 @@ jobs:
       - get: ci-scripts
       - get: version
         params: { bump: final }
-      - get: meta
       - task: prepare-release
         file: ci-scripts/ci/tasks/prepare-release.yml
       - task: build-and-publish
         file: ci-scripts/ci/tasks/build-and-publish.yml
-        params:
-          REPO_CONTEXT_URL: ((repo-context-url))
-          M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
-          M2_SETTINGS_REPO_PASSWORD: ((m2-settings-repo-password))
       - put: version
         params: { file: version/version }
       - put: code-repo-tag
@@ -173,6 +155,12 @@ jobs:
           tag: results/tag.txt
           globs:
             - release-results/code-repo-*.tgz
+      - put: artifactory
+        params:
+          repo: libs-release-local
+          folder: distribution-repository
+          build_uri: "((concourse_uri))/teams/${BUILD_TEAM_NAME}/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+          build_number: "${BUILD_PIPELINE_NAME}-${BUILD_JOB_NAME}-${BUILD_NAME}"
 
   - name: bump-patch-version
     serial: true

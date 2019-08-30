@@ -7,11 +7,6 @@ image_resource:
     repository: cloudpipelines/pipeline-base
     tag: latest
 
-params:
-  - REPO_CONTEXT_URL:
-  - M2_SETTINGS_REPO_USERNAME:
-  - M2_SETTINGS_REPO_PASSWORD:
-
 inputs:
   - name: ci-scripts
   - name: code-repo
