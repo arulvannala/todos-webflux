@@ -146,7 +146,7 @@ REPO_WITH_BINARIES_FOR_UPLOAD=$REPO_WITH_BINARIES_FOR_UPLOAD \
          --include-ignored
 ```
 
-- Test pipeline
+- Deploy pipeline
 
 ```bash
 fly -t lab login -k

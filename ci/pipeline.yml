@@ -14,9 +14,9 @@ resources:
   - name: artifactory
     type: artifactory-resource
     source:
-      uri: http://artifactory.kingslanding.pks.lab.winterfell.live/artifactory
-      username: admin
-      password: AP84FRgmKRG3hbDVF5y6qmEZqia
+      uri: ((repo-context-url))
+      username: ((m2-settings-repo-username))
+      password: ((m2-settings-repo-password))
       build_name: todos-webflux
 
   - name: meta
